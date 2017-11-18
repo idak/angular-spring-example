@@ -20,7 +20,7 @@ import static java.util.Collections.emptyList;
 @Slf4j
 public class JwtUtil {
     private static final String SECRET = "Your&secret!";
-    private static final String HEADER_STRING = "Authorization";
+    public static final String HEADER_STRING = "Authorization";
 
     /**
      * extract username from token

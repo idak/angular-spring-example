@@ -2,7 +2,10 @@ version: '3'
 services: 
   api:
     build: 
-      context: ../back-end
+# Java API version 
+      context: ../back-end-java
+# scala API version 
+#	   context: ../back-end-scala
       dockerfile: Dockerfile
     image: api:0.0.1
     ports:

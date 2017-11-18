@@ -2,7 +2,8 @@
 .vscode
 /build/
 /out/
-/back-end/bin/
+/back-end-java/bin/
+/back-end-scala/bin/
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###

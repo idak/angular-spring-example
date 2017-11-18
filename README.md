@@ -3,14 +3,21 @@ Securing Spring boot API with JWT
 
 In this example (user CRUD)  we check that the incoming request has a valid JWT token.
 
-Scala language
-----------------
-The Scala language is used to simplify the syntax and reduce the number of lines of code
 
 Run API
 -----------
+
+**Java API version**
+
 ```sh
-gradle bootRun
+back-end-java/gradlew bootRun
+```
+
+
+**Scala API version**
+
+```sh
+back-end-scala/gradlew bootRun
 ```
 
 ### Authentication

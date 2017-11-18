@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loginService.authenaticate(this.user)
     .subscribe(res => {
-      localStorage.setItem('token', res.headers.get('authorisation'));
-      this.router.navigate(['']);
+      localStorage.setItem('token', res.headers.get('authorization'));
+      this.router.navigate(['home']);
     },
         err => {
           console.log(err);

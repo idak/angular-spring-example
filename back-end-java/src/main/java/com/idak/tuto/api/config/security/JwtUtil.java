@@ -22,6 +22,7 @@ public class JwtUtil {
     private static final String SECRET = "Your&secret!";
     public static final String HEADER_STRING = "Authorization";
 
+    private JwtUtil(){ }
     /**
      * extract username from token
      * @param token

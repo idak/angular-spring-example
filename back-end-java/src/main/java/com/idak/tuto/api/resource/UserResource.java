@@ -39,8 +39,7 @@ public class UserResource {
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void update(@RequestBody User user){
-        this.userService.update(user);
+    public User update(@RequestBody User user){
+        return this.userService.update(user);
     }
 }

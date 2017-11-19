@@ -6,17 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class ApiApplicationTests {
+@SpringBootTest(classes = ApiApplication.class)
+public class ApiApplicationTest {
 
-	@Test
-	public void contextLoads() {
-	}
-
-	@Test
-	public void runnerTest(){
-        String[] args = {};
-        ApiApplication.main(args);
+    @Test
+    public void contextLoads() {
     }
-
 }

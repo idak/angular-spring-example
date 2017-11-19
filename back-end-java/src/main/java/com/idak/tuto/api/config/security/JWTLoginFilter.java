@@ -5,7 +5,6 @@ import com.idak.tuto.api.model.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -25,7 +24,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication( HttpServletRequest req, HttpServletResponse res)
-            throws AuthenticationException, IOException, ServletException {
+            throws IOException, ServletException {
         User creds = new ObjectMapper()
                 .readValue(req.getInputStream(), User.class);
         return getAuthenticationManager().authenticate(

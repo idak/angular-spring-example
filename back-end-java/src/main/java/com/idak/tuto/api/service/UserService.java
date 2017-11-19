@@ -1,10 +1,11 @@
 package com.idak.tuto.api.service;
 
+import com.idak.tuto.api.repository.UserRepository;
 import com.idak.tuto.api.model.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -14,30 +15,23 @@ import java.util.Optional;
  */
 @Service
 public class UserService {
-    private List<User> users = new ArrayList<>();
 
+    private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
-    public UserService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-        User admin = User.builder()
-                .id(1)
-                .username("admin")
-                .password("admin")
-                .email("admin@gmail.com")
-                .build();
-        this.create(admin);
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        passwordEncoder = new BCryptPasswordEncoder();
     }
 
     /**
      * Create new User
-     * @param user
-     * @return
+     * @param user : user to create
+     * @return User : saved user
      */
     public User create(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        users.add(user);
-        return user;
+        return userRepository.save(user);
     }
 
     /**
@@ -45,7 +39,7 @@ public class UserService {
      * @param user
      */
     public void delete(User user) {
-        users.remove(user);
+        userRepository.delete(user);
     }
 
     /**
@@ -53,13 +47,11 @@ public class UserService {
      * @param id
      */
     public void delete(int id) {
-        Optional<User> user = users.stream().filter(u -> u.getId() == id)
-                .findFirst();
-        if (user.isPresent()) users.remove(user.get());
+        userRepository.delete(id);
     }
 
     public List<User> get() {
-        return users;
+        return (List<User>) userRepository.findAll();
     }
 
     /**
@@ -68,24 +60,16 @@ public class UserService {
      * @return User
      */
     public User get(int id) {
-        Optional<User> user = users.stream().filter(u -> u.getId() == id)
-                .findFirst();
-        if (user.isPresent()) return user.get();
-        return null;
+        return userRepository.findOne(id);
     }
 
     /**
      * Update user
      * @param user
+     * @return User
      */
-    public void update(User user) {
-        users.stream()
-                .filter(u -> u.getId() == user.getId())
-                .findFirst()
-                .ifPresent( u -> {
-                    users.remove(u);
-                    users.add(user);
-                });
+    public User update(User user) {
+        return userRepository.save(user);
     }
 
     /**
@@ -99,8 +83,13 @@ public class UserService {
             return Optional.empty();
         }
 
-        return this.users.stream()
-                .filter( u -> username.equals(u.getUsername()) && passwordEncoder.matches(password, u.getPassword()))
-                .findFirst();
+        Optional<User> authenticatedUse = userRepository.findByUsername(username);
+        if(authenticatedUse.isPresent()
+                && passwordEncoder.matches(password, authenticatedUse.get().getPassword())){
+            return authenticatedUse;
+        }
+
+        return Optional.empty();
+
     }
 }
